@@ -32,7 +32,8 @@ namespace QBLLDemo.MessageReceiver
 
             // Construct the queue message and add it to the queue
             var queueMessage = messageId + "|" + messageContent;
-            await StorageHelper.AddToQueue(queueMessage);
+            var randomSeconds = new Random().Next(10);
+            await StorageHelper.AddToQueue(queueMessage, TimeSpan.FromSeconds(randomSeconds));
 
             // Write the message status to the log
             await StorageHelper.WriteToLog(messageId, MessageStageOption.OnQueue);

@@ -15,13 +15,17 @@ namespace QBLLDemo.MessageReceiver
         [FunctionName("GetMessageStatus")]
         public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)]HttpRequestMessage req, TraceWriter log)
         {
+            // Retrieve the message Id from the querystring
             var messageId = req.GetQuerystringValue("messageId");
+
+            // Retrieve the corresponding message from table storage
             var messageStatus = await StorageHelper.GetMessageById(messageId);
             if (messageStatus == null)
             {
                 return req.CreateErrorResponse(HttpStatusCode.NotFound, "Message not found");
             }
             
+            // Construct and return a response representing the message
             return req.CreateResponse(HttpStatusCode.OK, 
                 new
                     {
