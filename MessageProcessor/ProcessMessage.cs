@@ -56,7 +56,7 @@ namespace QBLLDemo.MessageProcessor
 
         public static void DeserializeMessage(string queueItem, out Guid messageId, out string body)
         {
-            var splitterPosition = queueItem.IndexOf(":", StringComparison.Ordinal);
+            var splitterPosition = queueItem.IndexOf("|", StringComparison.Ordinal);
             messageId = Guid.Parse(queueItem.Substring(0, splitterPosition));
             body = queueItem.Substring(splitterPosition + 1);
         }

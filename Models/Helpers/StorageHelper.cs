@@ -28,7 +28,7 @@
             // Create a log record instance using the message id as the key
             var record = new MessageStatus(messageId.ToString())
                 {
-                    MessageStage = messageStage,
+                    MessageStage = messageStage.ToString(),
                     ErrorMessage = errorMessage,
                 };
 

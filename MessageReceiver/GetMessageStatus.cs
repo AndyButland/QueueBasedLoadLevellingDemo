@@ -29,7 +29,7 @@ namespace QBLLDemo.MessageReceiver
             return req.CreateResponse(HttpStatusCode.OK, 
                 new
                     {
-                        messageId = messageStatus.MessageId,
+                        messageId = messageStatus.PartitionKey,
                         messageStage = messageStatus.MessageStage,
                         errorMessage = messageStatus.ErrorMessage
                     });

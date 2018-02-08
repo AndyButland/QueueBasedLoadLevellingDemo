@@ -13,15 +13,19 @@
 
     public class MessageStatus : TableEntity
     {
+        public MessageStatus()
+        {
+            // Necessary to avoid: "TableQuery Generic Type must provide a default parameterless constructor."
+            // when retrieving record from table storage
+        }
+
         public MessageStatus(string messageId)
         {
             PartitionKey = messageId;
             RowKey = string.Empty;
         }
 
-        public Guid MessageId { get; set; }
-
-        public MessageStageOption MessageStage { get; set; }
+        public string MessageStage { get; set; }
 
         public string ErrorMessage { get; set; }
     }
