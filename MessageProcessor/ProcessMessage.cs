@@ -10,7 +10,8 @@ namespace QBLLDemo.MessageProcessor
     public static class ProcessMessage
     {
         [FunctionName("ProcessMessage")]
-        public static async Task Run([QueueTrigger("messages", Connection = "AzureWebJobsStorage")]string queueItem, TraceWriter log)
+        public static async Task Run([QueueTrigger("messages", 
+            Connection = "AzureWebJobsStorage")]string queueItem, TraceWriter log)
         {
             var leaseId = await StorageHelper.AcquireLease(30);
             if (string.IsNullOrEmpty(leaseId))
@@ -33,12 +34,15 @@ namespace QBLLDemo.MessageProcessor
                 // Update message status in log on success
                 if (result.Status == ProcessMessageResultStatus.Success)
                 {
-                    await StorageHelper.WriteToLog(messageId, MessageStageOption.Complete);
+                    await StorageHelper.WriteToLog(messageId, 
+                        MessageStageOption.Complete);
                 }
                 else
                 {
                     // Update message status and error message in log on failure
-                    await StorageHelper.WriteToLog(messageId, MessageStageOption.ErrorProcessingMessage, result.ErrorMessage);
+                    await StorageHelper.WriteToLog(messageId, 
+                        MessageStageOption.ErrorProcessingMessage, 
+                        result.ErrorMessage);
 
                     // If we can retry, throw exception so message remains on queue
                     if (result.Status == ProcessMessageResultStatus.FailCanRetry)

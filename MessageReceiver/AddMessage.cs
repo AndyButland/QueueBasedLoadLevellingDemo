@@ -14,7 +14,8 @@ namespace QBLLDemo.MessageReceiver
     public static class AddMessage
     {
         [FunctionName("AddMessage")]
-        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)]HttpRequestMessage req, TraceWriter log)
+        public static async Task<HttpResponseMessage> Run([HttpTrigger(AuthorizationLevel.Anonymous, 
+            "post", Route = null)]HttpRequestMessage req, TraceWriter log)
         {
             // Retrieve the message content POSTed in the request
             var messageContent = await req.Content.ReadAsStringAsync();
@@ -26,7 +27,8 @@ namespace QBLLDemo.MessageReceiver
             if (IsMessageValid(messageContent) == false)
             {
                 var errorMessage = "Could not deserialize message";
-                await StorageHelper.WriteToLog(messageId, MessageStageOption.ValidationFailed, errorMessage);
+                await StorageHelper.WriteToLog(messageId, MessageStageOption.ValidationFailed, 
+                    errorMessage);
                 return req.CreateErrorResponse(HttpStatusCode.BadRequest, errorMessage);
             }
 
@@ -40,13 +42,16 @@ namespace QBLLDemo.MessageReceiver
 
             // Return a Created response with a Location header from where message status can be checked
             var response = req.CreateResponse(HttpStatusCode.Created);
-            response.Headers.Location = new Uri($"{req.RequestUri.AbsoluteUri.Replace("AddMessage", "GetMessageStatus")}?messageId={messageId}");
+            response.Headers.Location = 
+                new Uri($"{req.RequestUri.AbsoluteUri.Replace("AddMessage", "GetMessageStatus")}" + 
+                    "?messageId={messageId}");
             return response;
         }
 
         private static bool IsMessageValid(string body)
         {
-            // Check message is valid by deserializing the JSON response into an instance of the expected class
+            // Check message is valid by deserializing the JSON response into an instance of the 
+            // expected class
             try
             {
                 JsonConvert.DeserializeObject<Message>(body);
