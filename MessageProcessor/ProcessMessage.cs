@@ -68,7 +68,10 @@ namespace QBLLDemo.MessageProcessor
         private static async Task<ProcessMessageResult> PerformProcessMessage(string message)
         {
             // Simulate a success result
-            return await Task.FromResult(new ProcessMessageResult { Status = ProcessMessageResultStatus.Success });
+            return await Task.FromResult(new ProcessMessageResult
+                {
+                    Status = ProcessMessageResultStatus.Success
+                });
         }
     }
 }

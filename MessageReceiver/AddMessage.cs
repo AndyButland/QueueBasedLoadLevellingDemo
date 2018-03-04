@@ -44,7 +44,7 @@ namespace QBLLDemo.MessageReceiver
             var response = req.CreateResponse(HttpStatusCode.Created);
             response.Headers.Location = 
                 new Uri($"{req.RequestUri.AbsoluteUri.Replace("AddMessage", "GetMessageStatus")}" + 
-                    "?messageId={messageId}");
+                    $"?messageId={messageId}");
             return response;
         }
 

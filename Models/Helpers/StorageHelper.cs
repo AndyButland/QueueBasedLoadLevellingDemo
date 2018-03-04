@@ -16,7 +16,8 @@
         private const string LeaseContainer = "messages-lease";
         private const string LeaseBlob = "lock.txt";
 
-        private static readonly string StorageConnectionString = CloudConfigurationManager.GetSetting("AzureWebJobsStorage");
+        private static readonly string StorageConnectionString = 
+            CloudConfigurationManager.GetSetting("AzureWebJobsStorage");
 
         public static async Task WriteToLog(Guid messageId, 
                                             MessageStageOption messageStage, 
@@ -64,7 +65,9 @@
             var blob = container?.GetBlockBlobReference(LeaseBlob);
             if (blob == null)
             {
-                throw new InvalidOperationException($"Could not locate or create blob {LeaseBlob} in container {LeaseContainer} in order to acquire lease.");
+                throw new InvalidOperationException(
+                    $"Could not locate or create blob {LeaseBlob} in container {LeaseContainer}"
+                    + " in order to acquire lease.");
             }
 
             if (!await blob.ExistsAsync())
@@ -89,7 +92,9 @@
             var blob = GetBlob(LeaseContainer, LeaseBlob);
             if (blob == null)
             {
-                throw new InvalidOperationException($"Could not locate blob {LeaseBlob} in container {LeaseContainer} in order to release lease.");
+                throw new InvalidOperationException(
+                    $"Could not locate blob {LeaseBlob} in container {LeaseContainer}"
+                    + " in order to release lease.");
             }
 
             var acc = new AccessCondition { LeaseId = leaseId };
